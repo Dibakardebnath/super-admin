@@ -3,6 +3,8 @@ import { posts, media } from '@crm/db'
 import { eq } from 'drizzle-orm'
 import { PostCreateInput, Post, Media } from '@crm/types'
 
+
+
 export class CmsService {
   async getPosts(): Promise<{ posts: Post[] }> {
     const posts = await db.select().from(posts)

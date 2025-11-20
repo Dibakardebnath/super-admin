@@ -31,11 +31,10 @@ export default defineConfig({
     },
     hmr: {
       overlay: true,
-      port: 24678,
     },
     watch: {
       usePolling: true,
-      interval: 50,
+      interval: 100,
     },
   },
   build: {

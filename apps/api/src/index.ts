@@ -1,25 +1,194 @@
 import { Elysia } from 'elysia'
-import { testConnection } from '@crm/db'
+import { testConnection, db, users, organizations, organizationDetails, userOrganizations } from '@crm/db'
+import { eq, sql } from 'drizzle-orm'
 
-console.log('🔧 Environment loaded:')
-console.log(`   - DATABASE_URL: ${process.env.DATABASE_URL?.replace(/\/\/.*@/, '//***:***@')}`)
-console.log(`   - NODE_ENV: ${process.env.NODE_ENV}`)
-
-// Simple API server
 const app = new Elysia()
   .get('/', () => ({ message: 'API is running!' }))
+  
   .get('/health', async () => {
     const dbConnected = await testConnection()
     return {
       status: dbConnected ? 'ok' : 'database_error',
       timestamp: new Date().toISOString(),
       env: process.env.NODE_ENV || 'unknown',
-      database: dbConnected ? 'connected' : 'disconnected',
-      database_url: process.env.DATABASE_URL?.replace(/\/\/.*@/, '//***:***@')
+      database: dbConnected ? 'connected' : 'disconnected'
     }
   })
-  .listen(3001)
-
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-)
+  
+  // Users endpoints
+  .get('/api/users', async () => {
+    try {
+      const allUsers = await db.select().from(users).limit(10)
+      return {
+        success: true,
+        message: 'Users fetched successfully',
+        data: allUsers,
+        count: allUsers.length
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to fetch users',
+        error: error.message
+      }
+    }
+  })
+  
+  .get('/api/users/:id', async ({ params: { id } }) => {
+    try {
+      const user = await db.select().from(users).where(eq(users.id, id)).limit(1)
+      if (user.length === 0) {
+        return { success: false, message: 'User not found' }
+      }
+      return { success: true, data: user[0] }
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to fetch user',
+        error: error.message
+      }
+    }
+  })
+  
+  // Organizations endpoints
+  .get('/api/organizations', async () => {
+    try {
+      const allOrgs = await db.select().from(organizations).limit(10)
+      return {
+        success: true,
+        message: 'Organizations fetched successfully',
+        data: allOrgs,
+        count: allOrgs.length
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to fetch organizations',
+        error: error.message
+      }
+    }
+  })
+  
+  .get('/api/organizations/:id', async ({ params: { id } }) => {
+    try {
+      const org = await db.select().from(organizations).where(eq(organizations.id, id)).limit(1)
+      if (org.length === 0) {
+        return { success: false, message: 'Organization not found' }
+      }
+      return { success: true, data: org[0] }
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to fetch organization',
+        error: error.message
+      }
+    }
+  })
+  
+  // Organization details endpoints
+  .get('/api/organization-details', async () => {
+    try {
+      const allDetails = await db.select().from(organizationDetails).limit(10)
+      return {
+        success: true,
+        message: 'Organization details fetched successfully',
+        data: allDetails,
+        count: allDetails.length
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to fetch organization details',
+        error: error.message
+      }
+    }
+  })
+  
+  .get('/api/organization-details/:orgId', async ({ params: { orgId } }) => {
+    try {
+      const details = await db.select()
+        .from(organizationDetails)
+        .where(eq(organizationDetails.orgId, orgId))
+        .limit(1)
+      if (details.length === 0) {
+        return { success: false, message: 'Organization details not found' }
+      }
+      return { success: true, data: details[0] }
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to fetch organization details',
+        error: error.message
+      }
+    }
+  })
+  
+  // User organizations endpoints
+  .get('/api/user-organizations', async () => {
+    try {
+      const allUserOrgs = await db.select().from(userOrganizations).limit(10)
+      return {
+        success: true,
+        message: 'User organizations fetched successfully',
+        data: allUserOrgs,
+        count: allUserOrgs.length
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to fetch user organizations',
+        error: error.message
+      }
+    }
+  })
+  
+  .get('/api/user-organizations/:userId', async ({ params: { userId } }) => {
+    try {
+      const userOrgs = await db.select()
+        .from(userOrganizations)
+        .where(eq(userOrganizations.userId, userId))
+      return {
+        success: true,
+        message: 'User organizations fetched successfully',
+        data: userOrgs,
+        count: userOrgs.length
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to fetch user organizations',
+        error: error.message
+      }
+    }
+  })
+  
+  // Dashboard statistics endpoint
+  .get('/api/dashboard/stats', async () => {
+    try {
+      const [userCount, orgCount] = await Promise.all([
+        db.select({ count: sql`COUNT(*)` }).from(users),
+        db.select({ count: sql`COUNT(*)` }).from(organizations)
+      ])
+      
+      return {
+        success: true,
+        message: 'Dashboard stats fetched successfully',
+        data: {
+          totalUsers: userCount[0].count,
+          totalOrganizations: orgCount[0].count,
+          lastUpdated: new Date().toISOString()
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to fetch dashboard stats',
+        error: error?.message
+      }
+    }
+  })
+  
+  .listen({
+    port: 3001,
+    hostname: '0.0.0.0'
+  })

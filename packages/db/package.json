@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "drizzle-orm": "^0.36.4",
+    "drizzle-zod": "^0.5.1",
     "postgres": "^3.4.5",
     "@crm/types": "workspace:*",
-    "nanoid": "^5.1.0"
+    "nanoid": "^5.1.0",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "drizzle-kit": "^0.30.2",

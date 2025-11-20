@@ -3,6 +3,8 @@ import { customers, leads } from '@crm/db'
 import { eq } from 'drizzle-orm'
 import { CustomerCreateInput, Customer, Lead } from '@crm/types'
 
+//select * from customers
+
 export class CrmService {
   async getCustomers(): Promise<{ customers: Customer[] }> {
     const customers = await db.select().from(customers)

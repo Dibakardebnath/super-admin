@@ -2,7 +2,9 @@ import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 import * as schema from '../schema'
 
-const connectionString = process.env.DATABASE_URL
+// Get database URL from environment
+const connectionString = process?.env?.DATABASE_URL
+
 if (!connectionString) {
   console.error('❌ DATABASE_URL is not set in environment variables')
   throw new Error('DATABASE_URL is not set')
@@ -19,6 +21,7 @@ const client = postgres(connectionString, {
 
 // Test database connection
 export const testConnection = async () => {
+  console.log("calling testConnection👍🏻")
   try {
     console.log('🔄 Testing database connection to:', connectionString?.replace(/\/\/.*@/, '//***:***@'))
     const result = await client`SELECT 1`
@@ -31,17 +34,12 @@ export const testConnection = async () => {
     
     // Additional troubleshooting info
     if (connectionString?.includes('10.0.0.50')) {
-      console.error('   - Make sure the database server at 10.0.0.50:5433 is running')
+      console.error('   - Make sure database server at 10.0.0.50:5433 is running')
       console.error('   - Check if PostgreSQL is accessible from your network')
     }
     
     return false
   }
-}
-
-// Test the connection immediately in development mode
-if (process.env.NODE_ENV === 'development') {
-  testConnection()
 }
 
 export const db = drizzle(client, { schema })

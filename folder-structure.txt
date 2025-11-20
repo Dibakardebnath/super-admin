@@ -1,0 +1,122 @@
+.
+├── apps
+│   ├── api
+│   │   ├── dev-with-env.ts
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   ├── index.ts
+│   │   │   └── modules
+│   │   │       ├── admin
+│   │   │       │   ├── admin.controller.ts
+│   │   │       │   ├── admin.routes.ts
+│   │   │       │   ├── admin.schema.ts
+│   │   │       │   └── admin.service.ts
+│   │   │       ├── auth
+│   │   │       │   ├── auth.controller.ts
+│   │   │       │   ├── auth.routes.ts
+│   │   │       │   ├── auth.schema.ts
+│   │   │       │   └── auth.service.ts
+│   │   │       ├── cms
+│   │   │       │   ├── cms.controller.ts
+│   │   │       │   ├── cms.routes.ts
+│   │   │       │   ├── cms.schema.ts
+│   │   │       │   └── cms.service.ts
+│   │   │       └── crm
+│   │   │           ├── crm.controller.ts
+│   │   │           ├── crm.routes.ts
+│   │   │           ├── crm.schema.ts
+│   │   │           └── crm.service.ts
+│   │   └── tsconfig.json
+│   └── web
+│       ├── index.html
+│       ├── package.json
+│       ├── postcss.config.js
+│       ├── src
+│       │   ├── app.config.ts
+│       │   ├── app.tsx
+│       │   ├── router.tsx
+│       │   ├── routes
+│       │   │   ├── __root.tsx
+│       │   │   ├── admin
+│       │   │   │   ├── _layout.tsx
+│       │   │   │   ├── index.tsx
+│       │   │   │   ├── logs.tsx
+│       │   │   │   ├── overview.tsx
+│       │   │   │   ├── settings.tsx
+│       │   │   │   └── users.tsx
+│       │   │   ├── auth
+│       │   │   │   ├── login.tsx
+│       │   │   │   └── register.tsx
+│       │   │   ├── cms
+│       │   │   │   ├── _layout.tsx
+│       │   │   │   ├── analytics.tsx
+│       │   │   │   ├── index.tsx
+│       │   │   │   ├── media.tsx
+│       │   │   │   └── overview.tsx
+│       │   │   ├── crm
+│       │   │   │   ├── _layout.tsx
+│       │   │   │   ├── billing.tsx
+│       │   │   │   ├── index.tsx
+│       │   │   │   ├── insights.tsx
+│       │   │   │   ├── overview.tsx
+│       │   │   │   └── support.tsx
+│       │   │   └── index.tsx
+│       │   ├── routeTree.gen.ts
+│       │   └── styles.css
+│       ├── tailwind.config.js
+│       ├── tsconfig.json
+│       ├── vite.config.ts
+│       └── vite.config.ts.timestamp-1763536589960-62a68797f57d4.mjs
+├── bun.lock
+├── folder-structure.txt
+├── package.json
+├── packages
+│   ├── config
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   └── index.ts
+│   │   └── tsconfig.json
+│   ├── db
+│   │   ├── drizzle.config.ts
+│   │   ├── package.json
+│   │   ├── schema
+│   │   │   ├── admin.ts
+│   │   │   ├── cms.ts
+│   │   │   ├── crm.ts
+│   │   │   ├── index.ts
+│   │   │   └── user.ts
+│   │   ├── src
+│   │   │   ├── client.ts
+│   │   │   └── index.ts
+│   │   └── tsconfig.json
+│   ├── types
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   ├── cms.ts
+│   │   │   ├── crm.ts
+│   │   │   ├── index.ts
+│   │   │   └── user.ts
+│   │   └── tsconfig.json
+│   ├── ui
+│   │   ├── package.json
+│   │   ├── src
+│   │   │   ├── Button.tsx
+│   │   │   ├── Card.tsx
+│   │   │   ├── index.ts
+│   │   │   ├── Input.tsx
+│   │   │   ├── Sidebar.tsx
+│   │   │   └── styles.css
+│   │   └── tsconfig.json
+│   └── utils
+│       ├── package.json
+│       ├── src
+│       │   ├── cn.ts
+│       │   ├── format.ts
+│       │   └── index.ts
+│       └── tsconfig.json
+├── README.md
+├── SETUP.md
+├── tsconfig.json
+└── turbo.json
+
+28 directories, 92 files

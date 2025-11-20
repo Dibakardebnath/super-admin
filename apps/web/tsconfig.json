@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "target": "ES2022",
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "lib": ["ES2022"],
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "incremental": true,
+    "paths": {
+      "@crm/ui": ["../../packages/ui/src/*"],
+      "@crm/utils": ["../../packages/utils/src/*"],
+      "@crm/types": ["../../packages/types/src/*"],
+      "@crm/config": ["../../packages/config/src/*"],
+      "@crm/db": ["../../packages/db/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "build", ".next"]
+}

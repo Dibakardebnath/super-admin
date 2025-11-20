@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+     "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "target": "ES2022",
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "lib": ["ES2022"],
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "incremental": true,
+    "paths": {
+      "@crm/*": ["./apps/web/src/routes/crm/*"],
+      "@cms/*": ["./apps/web/src/routes/cms/*"],
+      "@admin/*": ["./apps/web/src/routes/admin/*"],
+      "@auth/*": ["./apps/web/src/routes/auth/*"],
+      "@/components/*": ["./apps/web/src/components/*"],
+      "@/features/*": ["./apps/web/src/features/*"],
+      "@/services/*": ["./apps/web/src/services/*"],
+      "@/lib/*": ["./apps/web/src/lib/*"],
+      "@/hooks/*": ["./apps/web/src/hooks/*"],
+      "@/server/*": ["./apps/web/src/server/*"],
+      "@ui/*": ["./packages/ui/src/*"],
+      "@utils/*": ["./packages/utils/src/*"],
+      "@types/*": ["./packages/types/src/*"],
+      "@config/*": ["./packages/config/src/*"],
+      "@db/*": ["./packages/db/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "build", ".next"]
+}

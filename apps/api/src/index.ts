@@ -29,7 +29,7 @@ const app = new Elysia()
       return {
         success: false,
         message: 'Failed to fetch users',
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
   })
@@ -45,7 +45,7 @@ const app = new Elysia()
       return {
         success: false,
         message: 'Failed to fetch user',
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
   })
@@ -64,7 +64,7 @@ const app = new Elysia()
       return {
         success: false,
         message: 'Failed to fetch organizations',
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
   })
@@ -80,7 +80,7 @@ const app = new Elysia()
       return {
         success: false,
         message: 'Failed to fetch organization',
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
   })
@@ -99,7 +99,7 @@ const app = new Elysia()
       return {
         success: false,
         message: 'Failed to fetch organization details',
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
   })
@@ -118,7 +118,7 @@ const app = new Elysia()
       return {
         success: false,
         message: 'Failed to fetch organization details',
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
   })
@@ -137,7 +137,7 @@ const app = new Elysia()
       return {
         success: false,
         message: 'Failed to fetch user organizations',
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
   })
@@ -157,7 +157,7 @@ const app = new Elysia()
       return {
         success: false,
         message: 'Failed to fetch user organizations',
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
   })
@@ -183,7 +183,7 @@ const app = new Elysia()
       return {
         success: false,
         message: 'Failed to fetch dashboard stats',
-        error: error?.message
+      error: error instanceof Error ? error.message : 'Unknown error'
       }
     }
   })
@@ -192,3 +192,5 @@ const app = new Elysia()
     port: 3001,
     hostname: '0.0.0.0'
   })
+  
+console.log('🚀 API server is running on http://localhost:3001')

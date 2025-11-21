@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, boolean, timestamp, index, text } from 'drizzle-orm/pg-core'
+import { pgTable, uuid, varchar, boolean, timestamp, index, text, integer } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
@@ -7,8 +7,10 @@ export const users = pgTable('users', {
   username: varchar('username', { length: 255 }).notNull().unique(),
   name: varchar('name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
-  isActive: boolean('is_active').default(true),
-  referralCode: varchar('referral_code', { length: 20 }).unique(),
+  password: varchar('password', { length: 255 }).notNull(),
+  role: varchar('role', { length: 20 }).notNull().default('viewer'),
+  isActive: boolean('is_active').notNull().default(true),
+  referralCode: varchar('referral_code', { length: 20 }).unique().default('').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
 });
@@ -61,6 +63,67 @@ export const userOrganizations = pgTable('user_organizations', {
   joinedAt: timestamp('joined_at').defaultNow(),
 });
 
+// System Settings
+export const systemSettings = pgTable('system_settings', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  key: varchar('key', { length: 255 }).notNull().unique(),
+  value: text('value').notNull(),
+  description: text('description'),
+  isPublic: boolean('is_public').default(false),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
+
+// CRM Tables
+export const customers = pgTable('customers', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: varchar('name', { length: 255 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull().unique(),
+  phone: varchar('phone', { length: 20 }),
+  company: varchar('company', { length: 255 }),
+  address: text('address'),
+  status: varchar('status', { length: 20 }).notNull().default('active'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
+
+export const leads = pgTable('leads', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: varchar('name', { length: 255 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull().unique(),
+  company: varchar('company', { length: 255 }),
+  status: varchar('status', { length: 20 }).notNull().default('prospect'),
+  value: varchar('value', { length: 50 }),
+  source: varchar('source', { length: 100 }),
+  notes: text('notes'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
+
+// CMS Tables
+export const posts = pgTable('posts', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  title: varchar('title', { length: 255 }).notNull(),
+  slug: varchar('slug', { length: 255 }).notNull().unique(),
+  content: text('content').notNull(),
+  excerpt: text('excerpt'),
+  status: varchar('status', { length: 20 }).notNull().default('draft'),
+  publishedAt: timestamp('published_at'),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+  authorId: uuid('author_id').references(() => users.id).notNull(),
+});
+
+export const media = pgTable('media', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  filename: varchar('filename', { length: 255 }).notNull(),
+  originalName: varchar('original_name', { length: 255 }).notNull(),
+  mimeType: varchar('mime_type', { length: 100 }).notNull(),
+  size: integer('size').notNull(),
+  path: varchar('path', { length: 500 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+});
+
 // Zod schemas for validation
 export const insertUserSchema = createInsertSchema(users);
 export const selectUserSchema = createSelectSchema(users);
@@ -74,6 +137,21 @@ export const selectOrganizationDetailsSchema = createSelectSchema(organizationDe
 export const insertUserOrganizationSchema = createInsertSchema(userOrganizations);
 export const selectUserOrganizationSchema = createSelectSchema(userOrganizations);
 
+export const insertSystemSettingsSchema = createInsertSchema(systemSettings);
+export const selectSystemSettingsSchema = createSelectSchema(systemSettings);
+
+export const insertCustomerSchema = createInsertSchema(customers);
+export const selectCustomerSchema = createSelectSchema(customers);
+
+export const insertLeadSchema = createInsertSchema(leads);
+export const selectLeadSchema = createSelectSchema(leads);
+
+export const insertPostSchema = createInsertSchema(posts);
+export const selectPostSchema = createSelectSchema(posts);
+
+export const insertMediaSchema = createInsertSchema(media);
+export const selectMediaSchema = createSelectSchema(media);
+
 // Types for API responses
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
@@ -86,3 +164,18 @@ export type NewOrganizationDetails = typeof organizationDetails.$inferInsert;
 
 export type UserOrganization = typeof userOrganizations.$inferSelect;
 export type NewUserOrganization = typeof userOrganizations.$inferInsert;
+
+export type SystemSetting = typeof systemSettings.$inferSelect;
+export type NewSystemSetting = typeof systemSettings.$inferInsert;
+
+export type Customer = typeof customers.$inferSelect;
+export type NewCustomer = typeof customers.$inferInsert;
+
+export type Lead = typeof leads.$inferSelect;
+export type NewLead = typeof leads.$inferInsert;
+
+export type Post = typeof posts.$inferSelect;
+export type NewPost = typeof posts.$inferInsert;
+
+export type Media = typeof media.$inferSelect;
+export type NewMedia = typeof media.$inferInsert;

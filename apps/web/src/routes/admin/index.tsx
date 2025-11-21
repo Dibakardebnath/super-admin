@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Card } from '@crm/ui/Card'
+import { Card } from '@crm/ui'
 
 export const Route = createFileRoute('/admin/')({
   component: () => (

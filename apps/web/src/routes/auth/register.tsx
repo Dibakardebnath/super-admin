@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Card } from '@crm/ui/Card'
-import { Button } from '@crm/ui/Button'
-import { Input } from '@crm/ui/Input'
+import { Card } from '@crm/ui'
+import { Button } from '@crm/ui'
+import { Input } from '@crm/ui'
 import { useState } from 'react'
 
 export const Route = createFileRoute('/auth/register')({
@@ -26,7 +26,7 @@ export const Route = createFileRoute('/auth/register')({
           </div>
           
           <Card className="p-8">
-            <form className="space-y-6" onSubmit={(e) => {
+            <form className="space-y-6" onSubmit={(e: React.FormEvent) => {
               e.preventDefault()
               console.log('Register with:', { email, password, confirmPassword })
             }}>
@@ -41,7 +41,7 @@ export const Route = createFileRoute('/auth/register')({
                   autoComplete="email"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                   placeholder="Enter your email"
                 />
               </div>
@@ -57,7 +57,7 @@ export const Route = createFileRoute('/auth/register')({
                   autoComplete="new-password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                   placeholder="Create a password"
                 />
               </div>
@@ -73,7 +73,7 @@ export const Route = createFileRoute('/auth/register')({
                   autoComplete="new-password"
                   required
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm your password"
                 />
               </div>

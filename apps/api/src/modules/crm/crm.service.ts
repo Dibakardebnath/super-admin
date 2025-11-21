@@ -1,14 +1,12 @@
 import { db } from '@crm/db'
-import { customers, leads } from '@crm/db'
+import { customers, leads, Customer, Lead } from '@crm/db'
 import { eq } from 'drizzle-orm'
-import { CustomerCreateInput, Customer, Lead } from '@crm/types'
-
-//select * from customers
+import { CustomerCreateInput, LeadCreateInput } from '@crm/types'
 
 export class CrmService {
   async getCustomers(): Promise<{ customers: Customer[] }> {
-    const customers = await db.select().from(customers)
-    return { customers }
+    const customerList = await db.select().from(customers)
+    return { customers: customerList }
   }
 
   async getCustomer(id: string): Promise<{ customer: Customer }> {
@@ -50,11 +48,11 @@ export class CrmService {
   }
 
   async getLeads(): Promise<{ leads: Lead[] }> {
-    const leads = await db.select().from(leads)
-    return { leads }
+    const leadsList = await db.select().from(leads)
+    return { leads: leadsList }
   }
 
-  async createLead(data: any): Promise<{ lead: Lead; message: string }> {
+  async createLead(data: LeadCreateInput): Promise<{ lead: Lead; message: string }> {
     const [lead] = await db.insert(leads).values(data).returning()
     return {
       lead,

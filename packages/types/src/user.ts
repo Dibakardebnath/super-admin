@@ -7,6 +7,9 @@ export const UserSchema = z.object({
   role: z.enum(['admin', 'editor', 'viewer']),
   createdAt: z.date(),
   updatedAt: z.date(),
+  username: z.string(),
+  isActive: z.boolean(),
+  referralCode: z.string(),
 })
 
 export const AuthSchema = z.object({

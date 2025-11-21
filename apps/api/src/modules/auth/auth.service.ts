@@ -7,23 +7,37 @@ import jwt from 'jsonwebtoken'
 import { env } from '@crm/config'
 
 export class AuthService {
-  async register(data: UserCreateInput): Promise<{ user: Omit<User, 'password'>; message: string }> {
+  async register(data: UserCreateInput): Promise<{ user: User; message: string }> {
     const hashedPassword = await bcrypt.hash(data.password, 10)
     
+    // Create username from email if not provided
+    const username = data.email.split('@')[0]
+    
     const [user] = await db.insert(users).values({
-      ...data,
+      name: data.name,
+      email: data.email,
       password: hashedPassword,
+      role: data.role,
+      username,
+      isActive: true,
     }).returning()
     
     const { password, ...userWithoutPassword } = user
     
     return {
-      user: userWithoutPassword,
+      user: {
+        ...userWithoutPassword,
+        role: userWithoutPassword.role as 'admin' | 'editor' | 'viewer',
+        createdAt: userWithoutPassword.createdAt || new Date(),
+        updatedAt: userWithoutPassword.updatedAt || new Date(),
+        isActive: userWithoutPassword.isActive,
+        referralCode: userWithoutPassword.referralCode,
+      },
       message: 'User created successfully',
     }
   }
 
-  async login(data: AuthInput): Promise<{ user: Omit<User, 'password'>; token: string; message: string }> {
+  async login(data: AuthInput): Promise<{ user: User; token: string; message: string }> {
     const [user] = await db.select().from(users).where(eq(users.email, data.email))
     
     if (!user) {
@@ -41,7 +55,14 @@ export class AuthService {
     const { password, ...userWithoutPassword } = user
     
     return {
-      user: userWithoutPassword,
+      user: {
+        ...userWithoutPassword,
+        role: userWithoutPassword.role as 'admin' | 'editor' | 'viewer',
+        createdAt: userWithoutPassword.createdAt || new Date(),
+        updatedAt: userWithoutPassword.updatedAt || new Date(),
+        isActive: userWithoutPassword.isActive,
+        referralCode: userWithoutPassword.referralCode,
+      },
       token,
       message: 'Login successful',
     }

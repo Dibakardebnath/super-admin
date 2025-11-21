@@ -1,14 +1,14 @@
 import { db } from '@crm/db'
-import { posts, media } from '@crm/db'
+import { posts, media, Post, Media, NewMedia } from '@crm/db'
 import { eq } from 'drizzle-orm'
-import { PostCreateInput, Post, Media } from '@crm/types'
+import { PostCreateInput } from '@crm/types'
 
 
 
 export class CmsService {
   async getPosts(): Promise<{ posts: Post[] }> {
-    const posts = await db.select().from(posts)
-    return { posts }
+    const postsList = await db.select().from(posts)
+    return { posts: postsList }
   }
 
   async getPost(id: string): Promise<{ post: Post }> {
@@ -50,11 +50,11 @@ export class CmsService {
   }
 
   async getMedia(): Promise<{ media: Media[] }> {
-    const media = await db.select().from(media)
-    return { media }
+    const mediaList = await db.select().from(media)
+    return { media: mediaList }
   }
 
-  async uploadMedia(data: any): Promise<{ media: Media; message: string }> {
+  async uploadMedia(data: NewMedia): Promise<{ media: Media; message: string }> {
     const [mediaItem] = await db.insert(media).values(data).returning()
     return {
       media: mediaItem,

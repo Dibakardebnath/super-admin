@@ -1,13 +1,22 @@
 import { db } from '@crm/db'
-import { users, systemSettings } from '@crm/db'
+import { users, systemSettings, SystemSetting, NewSystemSetting } from '@crm/db'
 import { eq } from 'drizzle-orm'
 import { UserCreateInput, User } from '@crm/types'
 import bcrypt from 'bcrypt'
 
 export class AdminService {
   async getUsers(): Promise<{ users: User[] }> {
-    const users = await db.select().from(users)
-    return { users: users.map(({ password, ...user }) => user) }
+    const userList = await db.select().from(users)
+    return { 
+      users: userList.map(({ password, ...user }) => ({
+        ...user,
+        role: user.role as 'admin' | 'editor' | 'viewer',
+        createdAt: user.createdAt || new Date(),
+        updatedAt: user.updatedAt || new Date(),
+        isActive: user.isActive,
+        referralCode: user.referralCode,
+      }))
+    }
   }
 
   async getUser(id: string): Promise<{ user: User }> {
@@ -16,21 +25,40 @@ export class AdminService {
       throw new Error('User not found')
     }
     const { password, ...userWithoutPassword } = user
-    return { user: userWithoutPassword }
+    return { 
+      user: {
+        ...userWithoutPassword,
+        role: userWithoutPassword.role as 'admin' | 'editor' | 'viewer',
+        createdAt: userWithoutPassword.createdAt || new Date(),
+        updatedAt: userWithoutPassword.updatedAt || new Date(),
+      }
+    }
   }
 
   async createUser(data: UserCreateInput): Promise<{ user: User; message: string }> {
     const hashedPassword = await bcrypt.hash(data.password, 10)
     
+    // Create username from email if not provided
+    const username = data.email.split('@')[0]
+    
     const [user] = await db.insert(users).values({
-      ...data,
+      name: data.name,
+      email: data.email,
       password: hashedPassword,
+      role: data.role,
+      username,
+      isActive: true,
     }).returning()
     
     const { password, ...userWithoutPassword } = user
     
     return {
-      user: userWithoutPassword,
+      user: {
+        ...userWithoutPassword,
+        role: userWithoutPassword.role as 'admin' | 'editor' | 'viewer',
+        createdAt: userWithoutPassword.createdAt || new Date(),
+        updatedAt: userWithoutPassword.updatedAt || new Date(),
+      },
       message: 'User created successfully',
     }
   }
@@ -55,7 +83,12 @@ export class AdminService {
     const { password, ...userWithoutPassword } = user
     
     return {
-      user: userWithoutPassword,
+      user: {
+        ...userWithoutPassword,
+        role: userWithoutPassword.role as 'admin' | 'editor' | 'viewer',
+        createdAt: userWithoutPassword.createdAt || new Date(),
+        updatedAt: userWithoutPassword.updatedAt || new Date(),
+      },
       message: 'User updated successfully',
     }
   }
@@ -65,12 +98,12 @@ export class AdminService {
     return { message: 'User deleted successfully' }
   }
 
-  async getSettings(): Promise<{ settings: any[] }> {
+  async getSettings(): Promise<{ settings: SystemSetting[] }> {
     const settings = await db.select().from(systemSettings)
     return { settings }
   }
 
-  async updateSettings(data: any): Promise<{ setting: any; message: string }> {
+  async updateSettings(data: NewSystemSetting): Promise<{ setting: SystemSetting; message: string }> {
     const [setting] = await db.insert(systemSettings).values(data).returning()
     return {
       setting,

@@ -6,7 +6,7 @@
     "target": "ES2022",
     "skipLibCheck": true,
     "strictNullChecks": true,
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
     "strict": true,
@@ -18,12 +18,13 @@
     "composite": true,
     "incremental": true,
     "paths": {
-      "@crm/ui": ["../../packages/ui/src/*"],
-      "@crm/utils": ["../../packages/utils/src/*"],
-      "@crm/types": ["../../packages/types/src/*"],
-      "@crm/config": ["../../packages/config/src/*"],
-      "@crm/db": ["../../packages/db/src/*"]
+      "@crm/ui": ["../../packages/ui/src/index.ts"],
+      "@crm/utils": ["../../packages/utils/src/index.ts"],
+      "@crm/types": ["../../packages/types/src/index.ts"],
+      "@crm/config": ["../../packages/config/src/index.ts"],
+      "@crm/db": ["../../packages/db/src/index.ts"]
     }
   },
+  "include": ["src/**/*", "../../packages/ui/src/**/*", "../../packages/types/src/**/*", "../../packages/utils/src/**/*"],
   "exclude": ["node_modules", "dist", "build", ".next"]
 }

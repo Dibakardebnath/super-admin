@@ -20,6 +20,7 @@ export default defineConfig({
       '@crm/types': path.resolve(__dirname, '../../packages/types/src'),
       '@crm/config': path.resolve(__dirname, '../../packages/config/src'),
       '@crm/db': path.resolve(__dirname, '../../packages/db/src'),
+      '@crm/api': path.resolve(__dirname, '../../lib'),
     },
   },
   css: {

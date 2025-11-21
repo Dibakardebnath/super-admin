@@ -7,7 +7,6 @@ export const users = pgTable('users', {
   username: varchar('username', { length: 255 }).notNull().unique(),
   name: varchar('name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
-  password: varchar('password', { length: 255 }).notNull(),
   role: varchar('role', { length: 20 }).notNull().default('viewer'),
   isActive: boolean('is_active').notNull().default(true),
   referralCode: varchar('referral_code', { length: 20 }).unique().default('').notNull(),

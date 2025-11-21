@@ -4,14 +4,12 @@ export const adminSchema = {
   userCreateSchema: t.Object({
     name: t.String(),
     email: t.String({ format: 'email' }),
-    password: t.String(),
     role: t.Enum({ admin: 'admin', editor: 'editor', viewer: 'viewer' }),
   }),
   userUpdateSchema: t.Partial(
     t.Object({
       name: t.String(),
       email: t.String({ format: 'email' }),
-      password: t.String(),
       role: t.Enum({ admin: 'admin', editor: 'editor', viewer: 'viewer' }),
     })
   ),

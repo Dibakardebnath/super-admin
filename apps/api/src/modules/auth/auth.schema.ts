@@ -4,12 +4,10 @@ export const authSchema = {
   registerSchema: t.Object({
     name: t.String(),
     email: t.String({ format: 'email' }),
-    password: t.String(),
     role: t.Enum({ admin: 'admin', editor: 'editor', viewer: 'viewer' }),
   }),
   loginSchema: t.Object({
     email: t.String({ format: 'email' }),
-    password: t.String(),
   }),
   userResponse: t.Object({
     id: t.String(),

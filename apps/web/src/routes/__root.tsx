@@ -34,7 +34,7 @@ function RootComponent() {
           </header>
 
           {/* Scrollable Outlet Content */}
-          <main className="flex-1 overflow-auto bg-gray-50 p-8">
+          <main className="flex-1 overflow-auto bg-gray-50">
             <Suspense
               fallback={
                 <div className="flex h-full items-center justify-center text-gray-400">

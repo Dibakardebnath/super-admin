@@ -2,13 +2,12 @@ import { db } from '@crm/db'
 import { users, systemSettings, SystemSetting, NewSystemSetting } from '@crm/db'
 import { eq } from 'drizzle-orm'
 import { UserCreateInput, User } from '@crm/types'
-import bcrypt from 'bcrypt'
 
 export class AdminService {
   async getUsers(): Promise<{ users: User[] }> {
     const userList = await db.select().from(users)
     return { 
-      users: userList.map(({ password, ...user }) => ({
+      users: userList.map((user) => ({
         ...user,
         role: user.role as 'admin' | 'editor' | 'viewer',
         createdAt: user.createdAt || new Date(),
@@ -24,51 +23,41 @@ export class AdminService {
     if (!user) {
       throw new Error('User not found')
     }
-    const { password, ...userWithoutPassword } = user
     return { 
       user: {
-        ...userWithoutPassword,
-        role: userWithoutPassword.role as 'admin' | 'editor' | 'viewer',
-        createdAt: userWithoutPassword.createdAt || new Date(),
-        updatedAt: userWithoutPassword.updatedAt || new Date(),
+        ...user,
+        role: user.role as 'admin' | 'editor' | 'viewer',
+        createdAt: user.createdAt || new Date(),
+        updatedAt: user.updatedAt || new Date(),
       }
     }
   }
 
   async createUser(data: UserCreateInput): Promise<{ user: User; message: string }> {
-    const hashedPassword = await bcrypt.hash(data.password, 10)
-    
     // Create username from email if not provided
     const username = data.email.split('@')[0]
     
     const [user] = await db.insert(users).values({
       name: data.name,
       email: data.email,
-      password: hashedPassword,
       role: data.role,
       username,
       isActive: true,
     }).returning()
     
-    const { password, ...userWithoutPassword } = user
-    
     return {
       user: {
-        ...userWithoutPassword,
-        role: userWithoutPassword.role as 'admin' | 'editor' | 'viewer',
-        createdAt: userWithoutPassword.createdAt || new Date(),
-        updatedAt: userWithoutPassword.updatedAt || new Date(),
+        ...user,
+        role: user.role as 'admin' | 'editor' | 'viewer',
+        createdAt: user.createdAt || new Date(),
+        updatedAt: user.updatedAt || new Date(),
       },
       message: 'User created successfully',
     }
   }
 
   async updateUser(id: string, data: Partial<UserCreateInput>): Promise<{ user: User; message: string }> {
-    let updateData: any = { ...data, updatedAt: new Date() }
-    
-    if (data.password) {
-      updateData.password = await bcrypt.hash(data.password, 10)
-    }
+    const updateData = { ...data, updatedAt: new Date() }
     
     const [user] = await db
       .update(users)
@@ -80,14 +69,12 @@ export class AdminService {
       throw new Error('User not found')
     }
     
-    const { password, ...userWithoutPassword } = user
-    
     return {
       user: {
-        ...userWithoutPassword,
-        role: userWithoutPassword.role as 'admin' | 'editor' | 'viewer',
-        createdAt: userWithoutPassword.createdAt || new Date(),
-        updatedAt: userWithoutPassword.updatedAt || new Date(),
+        ...user,
+        role: user.role as 'admin' | 'editor' | 'viewer',
+        createdAt: user.createdAt || new Date(),
+        updatedAt: user.updatedAt || new Date(),
       },
       message: 'User updated successfully',
     }

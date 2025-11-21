@@ -2,7 +2,7 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM"],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -15,7 +15,11 @@
     "declaration": true,
     "declarationMap": true,
     "composite": true,
-    "incremental": true
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@crm/api": ["../../lib"]
+    }
   },
   "exclude": ["node_modules", "dist", "build", ".next"]
 }

@@ -20,7 +20,12 @@ export class CmsService {
   }
 
   async createPost(data: PostCreateInput): Promise<{ post: Post; message: string }> {
-    const [post] = await db.insert(posts).values(data).returning()
+    // Convert string dates to Date objects for Drizzle
+    const processedData = {
+      ...data,
+      publishedAt: typeof data.publishedAt === 'string' ? new Date(data.publishedAt) : data.publishedAt,
+    }
+    const [post] = await db.insert(posts).values(processedData).returning()
     return {
       post,
       message: 'Post created successfully',
@@ -28,9 +33,15 @@ export class CmsService {
   }
 
   async updatePost(id: string, data: Partial<PostCreateInput>): Promise<{ post: Post; message: string }> {
+    // Convert string dates to Date objects for Drizzle
+    const processedData = {
+      ...data,
+      updatedAt: new Date(),
+      publishedAt: typeof data.publishedAt === 'string' ? new Date(data.publishedAt) : data.publishedAt,
+    }
     const [post] = await db
       .update(posts)
-      .set({ ...data, updatedAt: new Date() })
+      .set(processedData)
       .where(eq(posts.id, id))
       .returning()
     

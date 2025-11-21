@@ -7,7 +7,7 @@ export const PostSchema = z.object({
   content: z.string(),
   excerpt: z.string().nullable().optional(),
   status: z.enum(['draft', 'published', 'archived']),
-  publishedAt: z.date().optional(),
+  publishedAt: z.union([z.date(), z.string()]).optional(),
   createdAt: z.date(),
   updatedAt: z.date(),
   authorId: z.string(),
@@ -19,7 +19,7 @@ export const PostCreateSchema = z.object({
   content: z.string(),
   excerpt: z.string().nullable().optional(),
   status: z.enum(['draft', 'published', 'archived']).default('draft'),
-  publishedAt: z.date().optional(),
+  publishedAt: z.union([z.date(), z.string()]).optional(),
   authorId: z.string(),
 })
 

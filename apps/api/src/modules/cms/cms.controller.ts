@@ -10,10 +10,10 @@ export const cmsController = {
       posts: result.posts.map(post => ({
         ...post,
         status: post.status as 'draft' | 'published' | 'archived',
-        excerpt: post.excerpt === null ? undefined : post.excerpt,
+        excerpt: post.excerpt || undefined,
         createdAt: (post.createdAt || new Date()).toString(),
         updatedAt: (post.updatedAt || new Date()).toString(),
-        publishedAt: post.publishedAt?.toString(),
+        publishedAt: post.publishedAt?.toString() || undefined,
       })),
     }
   },
@@ -23,9 +23,11 @@ export const cmsController = {
     return {
       post: {
         ...result.post,
-        createdAt: result.post.createdAt?.toString(),
-        updatedAt: result.post.updatedAt?.toString(),
-        publishedAt: result.post.publishedAt?.toString(),
+        status: result.post.status as 'draft' | 'published' | 'archived',
+        excerpt: result.post.excerpt || undefined,
+        createdAt: result.post.createdAt?.toString() || new Date().toISOString(),
+        updatedAt: result.post.updatedAt?.toString() || new Date().toISOString(),
+        publishedAt: result.post.publishedAt?.toString() || undefined,
       },
       message: 'Post fetched successfully',
     }
@@ -36,9 +38,11 @@ export const cmsController = {
     return {
       post: {
         ...result.post,
-        createdAt: result.post.createdAt?.toString(),
-        updatedAt: result.post.updatedAt?.toString(),
-        publishedAt: result.post.publishedAt?.toString(),
+        status: result.post.status as 'draft' | 'published' | 'archived',
+        excerpt: result.post.excerpt || undefined,
+        createdAt: result.post.createdAt?.toString() || new Date().toISOString(),
+        updatedAt: result.post.updatedAt?.toString() || new Date().toISOString(),
+        publishedAt: result.post.publishedAt?.toString() || undefined,
       },
       message: result.message,
     }
@@ -49,9 +53,11 @@ export const cmsController = {
     return {
       post: {
         ...result.post,
-        createdAt: result.post.createdAt?.toString(),
-        updatedAt: result.post.updatedAt?.toString(),
-        publishedAt: result.post.publishedAt?.toString(),
+        status: result.post.status as 'draft' | 'published' | 'archived',
+        excerpt: result.post.excerpt || undefined,
+        createdAt: result.post.createdAt?.toString() || new Date().toISOString(),
+        updatedAt: result.post.updatedAt?.toString() || new Date().toISOString(),
+        publishedAt: result.post.publishedAt?.toString() || undefined,
       },
       message: result.message,
     }
@@ -66,7 +72,7 @@ export const cmsController = {
     return {
       media: result.media.map(mediaItem => ({
         ...mediaItem,
-        createdAt: mediaItem.createdAt?.toString(),
+        createdAt: mediaItem.createdAt?.toString() || new Date().toISOString(),
       })),
     }
   },
@@ -76,7 +82,7 @@ export const cmsController = {
     return {
       media: {
         ...result.media,
-        createdAt: result.media.createdAt?.toString(),
+        createdAt: result.media.createdAt?.toString() || new Date().toISOString(),
       },
       message: result.message,
     }

@@ -1,16 +1,8 @@
 import * as React from 'react'
 import { Link } from '@tanstack/react-router'
 
-// Type augmentation for Vite HMR
-declare global {
-  interface ImportMeta {
-    hot?: {
-      accept(cb?: () => void): void
-    }
-  }
-}
-
-if (import.meta.hot) {
+// Check for Vite HMR and update module if available
+if (typeof import.meta.hot !== 'undefined') {
   import.meta.hot.accept(() => {
     console.log('Sidebar updated!');
   });

@@ -48,7 +48,7 @@ export const authController = {
       updatedAt: new Date().toISOString(),
       username: 'johndoe',
       isActive: true,
-      referralCode: undefined,
+      referralCode: '',
     }
   },
 }

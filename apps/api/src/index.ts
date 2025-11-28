@@ -18,19 +18,19 @@ console.log(
 // Log data from database on server start
 const logDataFromDB = async () => {
   try {
-    console.log("\n📊 Fetching data from database...");
+    // console.log("\n📊 Fetching data from database...");
 
     // Test basic connection first
     await testConnection();
-    console.log("✅ Database connection successful!");
+    // console.log("✅ Database connection successful!");
 
     // Get table list
     try {
       const tablesResult = await db.execute(
         sql`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name`
       );
-      console.log("\n📋 Tables in database:");
-      console.table(tablesResult);
+      // console.log("\n📋 Tables in database:");
+      // console.table(tablesResult);
     } catch (err) {
       console.log("⚠️ Could not fetch table list");
     }
@@ -40,8 +40,8 @@ const logDataFromDB = async () => {
       const usersData = await db.execute(
         sql`SELECT id, username, name, email, is_active, created_at FROM users LIMIT 5`
       );
-      console.log("\n👥 Users (first 5):");
-      console.table(usersData);
+      // console.log("\n👥 Users (first 5):");
+      // console.table(usersData);
     } catch (err) {
       if (err instanceof Error) {
         console.log("⚠️ Could not fetch users:", err.message);
@@ -63,8 +63,8 @@ const logDataFromDB = async () => {
       const orgsData = await db.execute(
         sql`SELECT * FROM organizations LIMIT 5`
       );
-      console.log("\n🏢 Organizations (first 5):");
-      console.table(orgsData);
+      // console.log("\n🏢 Organizations (first 5):");
+      // console.table(orgsData);
     } catch (err) {
       if (err instanceof Error) {
         console.log("⚠️ Could not fetch users:", err.message);
@@ -82,9 +82,9 @@ const logDataFromDB = async () => {
         sql`SELECT COUNT(*) as count FROM organizations`
       );
 
-      console.log("\n📈 Database Stats:");
-      console.log(`Total Users: ${userCount.count}`);
-      console.log(`Total Organizations: ${orgCount.count}`);
+      // console.log("\n📈 Database Stats:");
+      // console.log(`Total Users: ${userCount.count}`);
+      // console.log(`Total Organizations: ${orgCount.count}`);
     } catch (err) {
       if (err instanceof Error) {
         console.log("⚠️ Could not fetch users:", err.message);

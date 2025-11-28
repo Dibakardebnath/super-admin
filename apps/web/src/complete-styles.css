@@ -57,3 +57,55 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Additional UI component styles */
+@layer components {
+  .ripple {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .ripple::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  
+  .ripple:active::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .shadow-premium {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1), 0 4px 6px -1px rgb(0 0 0 / 0.05);
+  }
+
+  .transition-premium {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  .hover\:border-primary:hover {
+    border-color: hsl(var(--primary));
+  }
+
+  .hover\:bg-primary-subtle:hover {
+    background-color: hsl(var(--primary) / 0.1);
+  }
+
+  .bg-primary-subtle {
+    background-color: hsl(var(--primary) / 0.05);
+  }
+
+  .text-primary {
+    color: hsl(var(--primary));
+  }
+}

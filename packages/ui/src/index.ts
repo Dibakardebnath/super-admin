@@ -19,7 +19,8 @@ export * from './components/crm'
 
 // Utils
 export { cn } from './lib/utils'
-// export * from '@crm/api/api'
 
 //icons
 export * from './components/icons'
+
+// Note: CSS is imported in app.tsx via @crm/ui/styles

@@ -1,21 +1,20 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { TanStackRouterVite } from '@tanstack/router-vite-plugin'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import viteReact from '@vitejs/plugin-react'
 import path from 'path'
-
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
 import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   plugins: [
-    react({
-      jsxImportSource: 'react',
-    }), 
-    TanStackRouterVite()
+    tanstackStart(),
+    viteReact(),
   ],
   resolve: {
     alias: {
       '@crm/ui': path.resolve(__dirname, '../../packages/ui/src'),
+      '@crm/ui/styles': path.resolve(__dirname, '../../packages/ui/src/styles.css'),
       '@crm/utils': path.resolve(__dirname, '../../packages/utils/src'),
       '@crm/types': path.resolve(__dirname, '../../packages/types/src'),
       '@crm/config': path.resolve(__dirname, '../../packages/config/src'),
@@ -25,6 +24,7 @@ export default defineConfig({
   },
   css: {
     devSourcemap: true,
+    postcss: './postcss.config.js',
   },
   server: {
     fs: {
@@ -45,8 +45,9 @@ export default defineConfig({
     global: 'globalThis',
   },
   optimizeDeps: {
-    include: ['react', 'react-dom', '@tanstack/react-router', '@crm/ui'],
+    include: ['react', 'react-dom', '@tanstack/react-router', 'tailwindcss'],
     force: true,
+    exclude: ['@crm/ui'],
   },
   clearScreen: false,
 })

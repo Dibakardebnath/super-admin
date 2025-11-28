@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-     "jsx": "react-jsx",
+    "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "module": "ESNext",
     "target": "ES2022",
@@ -17,6 +17,9 @@
     "declarationMap": true,
     "composite": true,
     "incremental": true,
+
+    "baseUrl": "./src",
+
     "paths": {
       "@crm/*": ["./apps/web/src/routes/crm/*"],
       "@cms/*": ["./apps/web/src/routes/cms/*"],
@@ -32,7 +35,10 @@
       "@utils/*": ["./packages/utils/src/*"],
       "@types/*": ["./packages/types/src/*"],
       "@config/*": ["./packages/config/src/*"],
-      "@db/*": ["./packages/db/src/*"]
+      "@db/*": ["./packages/db/src/*"],
+      "@/*": ["./*"],
+      "@components/*": ["./components/*"],
+      "@assets/*": ["./assets/*"]
     }
   },
   "exclude": ["node_modules", "dist", "build", ".next"]

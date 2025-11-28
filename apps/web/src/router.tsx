@@ -7,3 +7,5 @@ export function createRouter() {
     defaultPreload: 'intent'
   })
 }
+
+export const getRouter = createRouter

@@ -1,10 +1,10 @@
-import { BillingOverview, Insights, StatsCard, SupportMessages, Updates,Users, UserManagement, MessageSquare, CreditCard, TrendingUp } from "@crm/ui";
+
+import { BillingOverview, CreditCard, Insights, MessageSquare, StatsCard, SupportMessages, TrendingUp, Updates, UserManagement, Users } from "@crm/ui";
 import { createFileRoute } from "@tanstack/react-router";
-// import { CreditCard, MessageSquare, TrendingUp, Users } from "lucide-react";
 
 export const Route = createFileRoute("/crm/")({
   component: () => (
-    <div className="p-6 space-y-6 animate-fade-in">
+    <div className="p-6 space-y-6 animate-fade-in border border-red-600">
             {/* Stats Grid */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <StatsCard
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/crm/")({
                 icon={Users}
                 trend="up"
               />
-              <StatsCard
+              {/* <StatsCard
                 title="Active Support Tickets"
                 value="34"
                 change="-5.1% from last week"
@@ -34,11 +34,11 @@ export const Route = createFileRoute("/crm/")({
                 change="Steady increase"
                 icon={TrendingUp}
                 trend="neutral"
-              />
+              /> */}
             </div>
 
-            {/* Main Content Grid */}
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+           
+            {/* <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <SupportMessages />
               <UserManagement />
             </div>
@@ -46,9 +46,9 @@ export const Route = createFileRoute("/crm/")({
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <BillingOverview />
               <Updates />
-            </div>
+            </div> */}
 
-            <Insights />
+            {/* <Insights /> */}
           </div>
   ),
 });

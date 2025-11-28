@@ -3,14 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "main": "./src/index.ts",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./styles": "./src/styles.css"
+    ".": {
+      "import": "./dist/src/index.js",
+      "types": "./dist/src/index.d.ts"
+    },
+    "./styles": "./dist/styles.css",
+    "./styles.css": "./dist/styles.css"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "tsc -p tsconfig.build.json && tailwindcss -i ./src/styles.css -o ./dist/styles.css --minify",
+    "dev": "tsc -p tsconfig.build.json --watch & tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch",
     "lint": "eslint . --max-warnings 0",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "@crm/types": "workspace:*",
@@ -26,7 +37,8 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.554.0",
     "react": "^18.3.1",
-    "tailwind-merge": "^2.5.5"
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/react": "^18.3.17",
